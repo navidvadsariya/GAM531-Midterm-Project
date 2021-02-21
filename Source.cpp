@@ -17,6 +17,7 @@ void drawLevel4();
 void drawLevel5();
 
 void drawPlayer();
+void drawSphere();
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -32,11 +33,13 @@ const unsigned int screen_height = 768;
 const GLuint NumVertices = 6;
 const GLuint NumVerticesPlayer = 12;
 
-GLuint VBO, VBO1, VBO2, VBO3, VBO4, VBO5, VBOP;
-GLuint VAO, VAO1, VAO2, VAO3, VAO4, VAO5, VAOP;
-GLuint EBO, EBO1, EBO2, EBO3, EBO4, EBO5, EBOP;
+GLuint VBO, VBO1, VBO2, VBO3, VBO4, VBO5, VBOP, VBOS;
+GLuint VAO, VAO1, VAO2, VAO3, VAO4, VAO5, VAOP, VAOS;
+GLuint EBO, EBO1, EBO2, EBO3, EBO4, EBO5, EBOP, EBOS;
 
-int row = 0;
+int row = 11;
+float sphereY = -0.9f;
+bool spacePressed = false;
 
 int main()
 {
@@ -82,7 +85,12 @@ int main()
         // input
         // -----
         processInput(window);
+
+        if (spacePressed) {
+            sphereY += 0.01;
+        }
         render();
+      
         tranformations(ourShader);
       
         ourShader.use();
@@ -110,7 +118,7 @@ void tranformations(Shader& ourShader)
     ourShader.use();
 
     glBindVertexArray(VAOP);
-
+    //create player
     unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
     glm::mat4 transformP = glm::mat4(1.0f);
     transformP = glm::translate(transformP, glm::vec3(0.0f, -0.95f, 0.0f));
@@ -121,8 +129,21 @@ void tranformations(Shader& ourShader)
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformP));
     drawPlayer();
 
+    //create sphere
+    glBindVertexArray(VAOS);
+
+    unsigned int transformLocS = glGetUniformLocation(ourShader.ID, "transform");
+    glm::mat4 transformS = glm::mat4(1.0f);
+    transformS = glm::translate(transformS, glm::vec3(0.0f, sphereY, 0.0f));
+
+    transformS = glm::scale(transformS, glm::vec3(0.03f, 0.03f, 0.0f));
+    ourShader.use();
+
+    glUniformMatrix4fv(transformLocS, 1, GL_FALSE, glm::value_ptr(transformS));
+    drawSphere();
+
     //row 1
-    for (unsigned int i = 0; i < 11; i++)
+    for (unsigned int i = 0; i < row; i++)
     {
         glBindVertexArray(VAO);
         tempRow += 0.161f;
@@ -139,7 +160,7 @@ void tranformations(Shader& ourShader)
     }
     tempRow = 0.0f;
     //row 2
-    for (unsigned int i = 0; i < 11; i++)
+    for (unsigned int i = 0; i < row; i++)
     {
         glBindVertexArray(VAO1);
         tempRow += 0.161f;
@@ -156,7 +177,7 @@ void tranformations(Shader& ourShader)
     }
     tempRow = 0.0f;
     //row 3
-    for (unsigned int i = 0; i < 11; i++)
+    for (unsigned int i = 0; i < row; i++)
     {
         glBindVertexArray(VAO2);
         tempRow += 0.161f;
@@ -173,7 +194,7 @@ void tranformations(Shader& ourShader)
     }
     tempRow = 0.0f;
     //row 4
-    for (unsigned int i = 0; i < 11; i++)
+    for (unsigned int i = 0; i < row; i++)
     {
         glBindVertexArray(VAO3);
         tempRow += 0.161f;
@@ -190,7 +211,7 @@ void tranformations(Shader& ourShader)
     }
     tempRow = 0.0f;
     //row 5
-    for (unsigned int i = 0; i < 11; i++)
+    for (unsigned int i = 0; i < row; i++)
     {
         glBindVertexArray(VAO4);
         tempRow += 0.161f;
@@ -240,13 +261,17 @@ void drawPlayer()
     glDrawElements(GL_TRIANGLES, NumVerticesPlayer, GL_UNSIGNED_INT, 0);
 }
 
+void drawSphere()
+{
+    glBindVertexArray(VAOS);
+    glDrawElements(GL_TRIANGLES, NumVertices, GL_UNSIGNED_INT, 0);
+}
+
 void render()
 {
     static const float black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
     glClearBufferfv(GL_COLOR, 0, black);
-    glClear(GL_COLOR_BUFFER_BIT);
-   
-    
+    glClear(GL_COLOR_BUFFER_BIT);  
 }
 
 
@@ -460,14 +485,52 @@ void init(void)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    //Sphere
+    float verticesS[] = {
+      0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
+        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f // top left 
+    };
+    unsigned int indicesS[] = {
+        0, 1, 3,  // first Triangle
+        1, 2, 3   // second Triangle
+    };
+
+    glGenVertexArrays(1, &VAOS);
+    glGenBuffers(1, &VBOS);
+    glGenBuffers(1, &EBOS);
+    glBindVertexArray(VAOS);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBOS);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesS), verticesS, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOS);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesS), indicesS, GL_STATIC_DRAW);
+
+    // position attribute pointer
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute pointer
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
   
 }
 
 // user input
 void processInput(GLFWwindow* window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
+    }
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    {
+        spacePressed = true;
+    }
+   
 }
 
 // glfw: viewport to window adjustment
