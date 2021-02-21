@@ -114,7 +114,7 @@ int main()
 
 void tranformations(Shader& ourShader)
 {
-    Sleep(2500);
+   
     float tempRow = 0.0f;
     ourShader.use();
 
