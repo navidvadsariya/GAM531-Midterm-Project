@@ -8,7 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
-
+#include <Windows.h>
 
 void drawLevel1();
 void drawLevel2();
@@ -77,7 +77,7 @@ int main()
     // build and compile our shader program
 
     Shader ourShader("shader.vs", "shader.fs"); // you can name your shader files however you like
-
+   
     init();
  // render loop
     while (!glfwWindowShouldClose(window))
@@ -114,6 +114,7 @@ int main()
 
 void tranformations(Shader& ourShader)
 {
+    Sleep(2500);
     float tempRow = 0.0f;
     ourShader.use();
 
@@ -226,7 +227,7 @@ void tranformations(Shader& ourShader)
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
         drawLevel5();
     }
-   
+  
     ourShader.use();
 }
 void drawLevel1()
