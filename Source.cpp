@@ -27,7 +27,7 @@ void tranformations(Shader& ourShader);
 const unsigned int screen_width = 1024;
 const unsigned int screen_height = 768;
 
-const GLuint NumVertices = 12;
+const GLuint NumVertices = 6;
 
 GLuint VBO, VBO1, VBO2, VBO3, VBO4, VBO5;
 GLuint VAO, VAO1, VAO2, VAO3, VAO4, VAO5;
@@ -105,15 +105,15 @@ void tranformations(Shader& ourShader)
 {
     float tempRow = 0.0f;
     ourShader.use();
-    
+    //row 1
     for (unsigned int i = 0; i < 11; i++)
     {
         glBindVertexArray(VAO);
-        tempRow += 0.165f;
+        tempRow += 0.161f;
 
         unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
         glm::mat4 transform = glm::mat4(1.0f);
-        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 1.0f, 0.0f));
+        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 0.95f, 0.0f));
        
         transform = glm::scale(transform, glm::vec3(0.15f, 0.08f, 0.0f));
         ourShader.use();
@@ -122,14 +122,15 @@ void tranformations(Shader& ourShader)
         drawLevel1();
     }
     tempRow = 0.0f;
+    //row 2
     for (unsigned int i = 0; i < 11; i++)
     {
         glBindVertexArray(VAO1);
-        tempRow += 0.165f;
+        tempRow += 0.161f;
 
         unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
         glm::mat4 transform = glm::mat4(1.0f);
-        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 1.0f, 0.0f));
+        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 0.85f, 0.0f));
 
         transform = glm::scale(transform, glm::vec3(0.15f, 0.08f, 0.0f));
         ourShader.use();
@@ -138,14 +139,15 @@ void tranformations(Shader& ourShader)
         drawLevel2();
     }
     tempRow = 0.0f;
+    //row 3
     for (unsigned int i = 0; i < 11; i++)
     {
         glBindVertexArray(VAO2);
-        tempRow += 0.165f;
+        tempRow += 0.161f;
 
         unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
         glm::mat4 transform = glm::mat4(1.0f);
-        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 1.0f, 0.0f));
+        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 0.75f, 0.0f));
 
         transform = glm::scale(transform, glm::vec3(0.15f, 0.08f, 0.0f));
         ourShader.use();
@@ -154,14 +156,15 @@ void tranformations(Shader& ourShader)
         drawLevel3();
     }
     tempRow = 0.0f;
+    //row 4
     for (unsigned int i = 0; i < 11; i++)
     {
         glBindVertexArray(VAO3);
-        tempRow += 0.165f;
+        tempRow += 0.161f;
 
         unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
         glm::mat4 transform = glm::mat4(1.0f);
-        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 1.0f, 0.0f));
+        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 0.65f, 0.0f));
 
         transform = glm::scale(transform, glm::vec3(0.15f, 0.08f, 0.0f));
         ourShader.use();
@@ -170,14 +173,15 @@ void tranformations(Shader& ourShader)
         drawLevel4();
     }
     tempRow = 0.0f;
+    //row 5
     for (unsigned int i = 0; i < 11; i++)
     {
         glBindVertexArray(VAO4);
-        tempRow += 0.165f;
+        tempRow += 0.161f;
 
         unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
         glm::mat4 transform = glm::mat4(1.0f);
-        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 1.0f, 0.0f));
+        transform = glm::translate(transform, glm::vec3(-1.0f + tempRow, 0.55f, 0.0f));
 
         transform = glm::scale(transform, glm::vec3(0.15f, 0.08f, 0.0f));
         ourShader.use();
@@ -257,137 +261,137 @@ void init(void)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    ////2 level
-    //float vertices2[] = {
-    // 1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-    //    1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f // top left 
-    //};
-    //unsigned int indices2[] = {
-    //    0, 1, 3,  // first Triangle
-    //    1, 2, 3   // second Triangle
-    //};
+    //2 level
+    float vertices2[] = {
+     0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, // top right
+        0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f // top left 
+    };
+    unsigned int indices2[] = {
+        0, 1, 3,  // first Triangle
+        1, 2, 3   // second Triangle
+    };
 
-    //glGenVertexArrays(1, &VAO1);
-    //glGenBuffers(1, &VBO1);
-    //glGenBuffers(1, &EBO1);
-    //glBindVertexArray(VAO1);
+    glGenVertexArrays(1, &VAO1);
+    glGenBuffers(1, &VBO1);
+    glGenBuffers(1, &EBO1);
+    glBindVertexArray(VAO1);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO1);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO1);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
 
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO1);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices2), indices2, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO1);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices2), indices2, GL_STATIC_DRAW);
 
-    //// position attribute pointer
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
-    //// color attribute pointer
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
+    // position attribute pointer
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute pointer
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
-    ////3 level
-    //float vertices3[] = {
-    //   1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-    //    1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f // top left 
-    //};
-    //unsigned int indices3[] = {
-    //    0, 1, 3,  // first Triangle
-    //    1, 2, 3   // second Triangle
-    //};
+    //3 level
+    float vertices3[] = {
+      0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, // top right
+        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, // bottom left
+        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f // top left 
+    };
+    unsigned int indices3[] = {
+        0, 1, 3,  // first Triangle
+        1, 2, 3   // second Triangle
+    };
 
-    //glGenVertexArrays(1, &VAO2);
-    //glGenBuffers(1, &VBO2);
-    //glGenBuffers(1, &EBO2);
-    //glBindVertexArray(VAO2);
+    glGenVertexArrays(1, &VAO2);
+    glGenBuffers(1, &VBO2);
+    glGenBuffers(1, &EBO2);
+    glBindVertexArray(VAO2);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices3), vertices3, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices3), vertices3, GL_STATIC_DRAW);
 
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices3), indices3, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices3), indices3, GL_STATIC_DRAW);
 
-    //// position attribute pointer
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
-    //// color attribute pointer
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
+    // position attribute pointer
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute pointer
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
-    ////4 level
-    //float vertices4[] = {
-    //   1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-    //    1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f // top left 
-    //};
-    //unsigned int indices4[] = {
-    //    0, 1, 3,  // first Triangle
-    //    1, 2, 3   // second Triangle
-    //};
+    //4 level
+    float vertices4[] = {
+      0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, // bottom left
+        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f // top left 
+    };
+    unsigned int indices4[] = {
+        0, 1, 3,  // first Triangle
+        1, 2, 3   // second Triangle
+    };
 
-    //glGenVertexArrays(1, &VAO3);
-    //glGenBuffers(1, &VBO3);
-    //glGenBuffers(1, &EBO3);
-    //glBindVertexArray(VAO3);
+    glGenVertexArrays(1, &VAO3);
+    glGenBuffers(1, &VBO3);
+    glGenBuffers(1, &EBO3);
+    glBindVertexArray(VAO3);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO3);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices4), vertices4, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO3);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices4), vertices4, GL_STATIC_DRAW);
 
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices4), indices4, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices4), indices4, GL_STATIC_DRAW);
 
-    //// position attribute pointer
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
-    //// color attribute pointer
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
+    // position attribute pointer
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute pointer
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
-    ////5 level
-    //float vertices5[] = {
-    //   1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
-    //    1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-    //    1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f // top left 
-    //};
-    //unsigned int indices5[] = {
-    //    0, 1, 3,  // first Triangle
-    //    1, 2, 3   // second Triangle
-    //};
+    //5 level
+    float vertices5[] = {
+      0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // top right
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f // top left 
+    };
+    unsigned int indices5[] = {
+        0, 1, 3,  // first Triangle
+        1, 2, 3   // second Triangle
+    };
 
-    //glGenVertexArrays(1, &VAO4);
-    //glGenBuffers(1, &VBO4);
-    //glGenBuffers(1, &EBO4);
-    //glBindVertexArray(VAO4);
+    glGenVertexArrays(1, &VAO4);
+    glGenBuffers(1, &VBO4);
+    glGenBuffers(1, &EBO4);
+    glBindVertexArray(VAO4);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO4);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices5), vertices5, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO4);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices5), vertices5, GL_STATIC_DRAW);
 
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO4);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices5), indices5, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO4);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices5), indices5, GL_STATIC_DRAW);
 
-    //// position attribute pointer
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
-    //// color attribute pointer
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
+    // position attribute pointer
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute pointer
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 // user input
