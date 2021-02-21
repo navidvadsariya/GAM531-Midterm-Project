@@ -16,6 +16,8 @@ void drawLevel3();
 void drawLevel4();
 void drawLevel5();
 
+void drawPlayer();
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void init(void);
@@ -28,10 +30,11 @@ const unsigned int screen_width = 1024;
 const unsigned int screen_height = 768;
 
 const GLuint NumVertices = 6;
+const GLuint NumVerticesPlayer = 12;
 
-GLuint VBO, VBO1, VBO2, VBO3, VBO4, VBO5;
-GLuint VAO, VAO1, VAO2, VAO3, VAO4, VAO5;
-GLuint EBO, EBO1, EBO2, EBO3, EBO4, EBO5;
+GLuint VBO, VBO1, VBO2, VBO3, VBO4, VBO5, VBOP;
+GLuint VAO, VAO1, VAO2, VAO3, VAO4, VAO5, VAOP;
+GLuint EBO, EBO1, EBO2, EBO3, EBO4, EBO5, EBOP;
 
 int row = 0;
 
@@ -105,6 +108,19 @@ void tranformations(Shader& ourShader)
 {
     float tempRow = 0.0f;
     ourShader.use();
+
+    glBindVertexArray(VAOP);
+
+    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+    glm::mat4 transformP = glm::mat4(1.0f);
+    transformP = glm::translate(transformP, glm::vec3(0.0f, -0.95f, 0.0f));
+
+    transformP = glm::scale(transformP, glm::vec3(0.185f, 0.05f, 0.0f));
+    ourShader.use();
+
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformP));
+    drawPlayer();
+
     //row 1
     for (unsigned int i = 0; i < 11; i++)
     {
@@ -217,6 +233,13 @@ void drawLevel5()
     glBindVertexArray(VAO4);
     glDrawElements(GL_TRIANGLES, NumVertices, GL_UNSIGNED_INT, 0);
 }
+
+void drawPlayer()
+{
+    glBindVertexArray(VAOP);
+    glDrawElements(GL_TRIANGLES, NumVerticesPlayer, GL_UNSIGNED_INT, 0);
+}
+
 void render()
 {
     static const float black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -225,6 +248,8 @@ void render()
    
     
 }
+
+
 
 void init(void)
 {
@@ -392,6 +417,50 @@ void init(void)
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    //player box
+    float verticesP[] = {
+
+        -0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // top right
+        -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
+        0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // top left 
+
+        0.45f,  0.4f, 0.0f, 1.0f, 1.0f, 0.0f, // top right
+        0.45f, -0.4f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom right
+        -0.45f, -0.4f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom left
+        -0.45f,  0.4f, 0.0f, 1.0f, 1.0f, 0.0f // top left 
+    };
+    unsigned int indicesP[] = {
+        0, 1, 3,  // first Triangle
+        1, 2, 3,   // second Triangle
+
+        4,5,7, // first Triangle
+        5,6,7 // second Triangle
+    };
+
+    glGenVertexArrays(1, &VAOP);
+    glGenBuffers(1, &VBOP);
+    glGenBuffers(1, &EBOP);
+    glBindVertexArray(VAOP);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBOP);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesP), verticesP, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOP);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesP), indicesP, GL_STATIC_DRAW);
+
+    // position attribute pointer
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute pointer
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+  
 }
 
 // user input
