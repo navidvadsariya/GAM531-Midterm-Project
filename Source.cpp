@@ -57,7 +57,7 @@ int main()
     // glfw window creation
     // --------------------
     GLFWwindow* window;
-    window = glfwCreateWindow(screen_width, screen_height, "OpenGLTwoTrianglesExternalShaderFiles", NULL, NULL);
+    window = glfwCreateWindow(screen_width, screen_height, "OpenGLMidtermProject", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
